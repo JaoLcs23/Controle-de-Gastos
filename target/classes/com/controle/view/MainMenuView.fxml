@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
 
-<VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controle.view.MenuController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controle.view.MenuController" styleClass="root">
     <padding>
         <Insets top="40" right="40" bottom="40" left="40"/>
     </padding>
 
-    <Label text="Menu Principal" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <top>
+        <Label text="Menu Principal" styleClass="label-title" BorderPane.alignment="CENTER"/>
+    </top>
 
-    <Button text="Gerenciar Categorias" prefWidth="200" onAction="#handleManageCategories"/>
-    <Button text="Gerenciar Transações" prefWidth="200" onAction="#handleManageTransactions"/>
-    <Button text="Visualizar Relatórios" prefWidth="200" onAction="#handleViewReports"/>
-    <Button text="Sair" prefWidth="200" onAction="#handleExit"/>
-</VBox>
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <Button text="Gerenciar Categorias" prefWidth="200" onAction="#handleManageCategories" styleClass="button"/>
+            <Button text="Gerenciar Transações" prefWidth="200" onAction="#handleManageTransactions" styleClass="button"/>
+            <Button text="Visualizar Relatórios" prefWidth="200" onAction="#handleViewReports" styleClass="button"/>
+            <Button text="Sair" prefWidth="200" onAction="#handleExit" styleClass="button"/>
+        </VBox>
+    </center>
+</BorderPane>

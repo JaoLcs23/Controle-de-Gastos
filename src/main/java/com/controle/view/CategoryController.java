@@ -7,18 +7,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader; // Importar FXMLLoader
-import javafx.scene.Parent;   // Importar Parent
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage; // Importar Stage
-import java.io.IOException; // Importar IOException
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.Optional;
 
-// Controlador da tela de gerenciamento de categorias
 public class CategoryController {
 
     private Stage primaryStage;
+    private int selectedCategoryId = 0;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -30,6 +31,14 @@ public class CategoryController {
     @FXML private TableColumn<Categoria, Integer> colId;
     @FXML private TableColumn<Categoria, String> colName;
     @FXML private TableColumn<Categoria, TipoCategoria> colType;
+    @FXML private Button addCategoryButton;
+    @FXML private Button updateCategoryButton;
+    @FXML private Button deleteCategoryButton;
+    @FXML private Button newCategoryButton;
+    @FXML private Label categoryNameErrorLabel;
+    @FXML private Label categoryTypeErrorLabel;
+    @FXML private TextField searchField;
+
 
     private GastoPessoalService service;
     private ObservableList<Categoria> categoriasData = FXCollections.observableArrayList();
@@ -48,55 +57,135 @@ public class CategoryController {
 
         categoryTable.setItems(categoriasData);
 
-        loadCategories();
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            loadCategories(newValue);
+        });
+
+        loadCategories("");
+        setFormMode(false);
+        clearAllErrors();
+
+        categoryTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showCategoryDetails(newValue));
     }
 
-    private void loadCategories() {
-        categoriasData.clear();
-        categoriasData.addAll(service.listarTodasCategorias());
+    private void showCategoryDetails(Categoria categoria) {
+        clearAllErrors();
+        if (categoria != null) {
+            selectedCategoryId = categoria.getId();
+            categoryNameField.setText(categoria.getNome());
+            categoryTypeComboBox.getSelectionModel().select(categoria.getTipo());
+            setFormMode(true);
+        } else {
+            handleNewCategory(null);
+        }
+    }
+
+    private void setFormMode(boolean isEditing) {
+        addCategoryButton.setDisable(isEditing);
+        updateCategoryButton.setDisable(!isEditing);
+        deleteCategoryButton.setDisable(!isEditing);
+        newCategoryButton.setDisable(false);
     }
 
     @FXML
-    private void handleAddCategory(ActionEvent event) {
+    private void handleNewCategory(ActionEvent event) {
+        categoryNameField.clear();
+        categoryTypeComboBox.getSelectionModel().clearSelection();
+        selectedCategoryId = 0;
+        categoryTable.getSelectionModel().clearSelection();
+        setFormMode(false);
+        clearAllErrors();
+        searchField.clear();
+        loadCategories("");
+    }
+
+    @FXML
+    private void handleAddOrUpdateCategory(ActionEvent event) {
+        clearAllErrors();
+
         String name = categoryNameField.getText();
         TipoCategoria type = categoryTypeComboBox.getSelectionModel().getSelectedItem();
 
-        if (name.isEmpty() || type == null) {
-            showAlert(Alert.AlertType.WARNING, "Campos Vazios", "Por favor, preencha o nome e selecione o tipo da categoria.");
+        boolean isValid = true;
+        if (name == null || name.trim().isEmpty()) {
+            showFieldError(categoryNameField, categoryNameErrorLabel, "Nome da categoria é obrigatório.");
+            isValid = false;
+        }
+        if (type == null) {
+            showFieldError(categoryTypeComboBox, categoryTypeErrorLabel, "Selecione o tipo da categoria.");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            showAlert(Alert.AlertType.WARNING, "Campos Inválidos", "Por favor, corrija os campos destacados.");
             return;
         }
 
         try {
-            service.adicionarCategoria(name, type);
-            showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Categoria '" + name + "' adicionada com sucesso!");
-            categoryNameField.clear();
-            categoryTypeComboBox.getSelectionModel().clearSelection();
-            loadCategories();
+            if (selectedCategoryId == 0) {
+                service.adicionarCategoria(name, type);
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Categoria '" + name + "' adicionada com sucesso!");
+            } else {
+                Categoria categoriaAtualizada = new Categoria(selectedCategoryId, name, type);
+                service.atualizarCategoria(categoriaAtualizada);
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Categoria '" + name + "' atualizada com sucesso!");
+            }
+            loadCategories(searchField.getText());
+            handleNewCategory(null);
         } catch (IllegalArgumentException e) {
-            showAlert(Alert.AlertType.ERROR, "Erro ao Adicionar", e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erro", e.getMessage());
         } catch (RuntimeException e) {
             showAlert(Alert.AlertType.ERROR, "Erro Inesperado", "Ocorreu um erro inesperado: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // CORREÇÃO AQUI: Implementando a lógica de voltar para o menu principal
+    @FXML
+    private void handleDeleteCategory(ActionEvent event) {
+        if (selectedCategoryId == 0) {
+            showAlert(Alert.AlertType.WARNING, "Nenhuma Seleção", "Por favor, selecione uma categoria na tabela para excluir.");
+            return;
+        }
+
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirmar Exclusão");
+        confirmAlert.setHeaderText("Excluir Categoria?");
+        confirmAlert.setContentText("Tem certeza que deseja excluir a categoria selecionada?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                service.excluirCategoria(selectedCategoryId);
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Categoria excluída com sucesso!");
+                loadCategories(searchField.getText());
+                handleNewCategory(null);
+            }
+            catch (RuntimeException e) {
+                showAlert(Alert.AlertType.ERROR, "Erro ao Excluir", "Ocorreu um erro ao excluir a categoria: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadCategories(String searchTerm) {
+        categoriasData.clear();
+        categoriasData.addAll(service.listarCategoriasPorTermo(searchTerm));
+    }
+
     @FXML
     private void handleGoBack(ActionEvent event) {
         try {
-            // Carrega o arquivo FXML do menu principal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/controle/view/MainMenuView.fxml"));
             Parent root = loader.load();
 
-            // Obtém o controlador do FXML do menu principal
             MenuController menuController = loader.getController();
-            // Passa a referência do Stage principal para o MenuController
             menuController.setPrimaryStage(primaryStage);
 
-            // Cria uma nova cena com o layout do menu principal
+            // Scene sem dimensoes fixas
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/controle/view/style.css").toExternalForm());
 
-            // Define a nova cena no Stage principal
             primaryStage.setScene(scene);
             primaryStage.setTitle("Controle de Gastos Pessoais - Menu Principal");
             primaryStage.show();
@@ -105,6 +194,25 @@ public class CategoryController {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erro de Navegação", "Não foi possível carregar o menu principal.");
         }
+    }
+
+    private void showFieldError(Control control, Label errorLabel, String message) {
+        if (!control.getStyleClass().contains("text-field-error")) {
+            control.getStyleClass().add("text-field-error");
+        }
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+    }
+
+    private void clearFieldError(Control control, Label errorLabel) {
+        control.getStyleClass().remove("text-field-error");
+        errorLabel.setText("");
+        errorLabel.setVisible(false);
+    }
+
+    private void clearAllErrors() {
+        clearFieldError(categoryNameField, categoryNameErrorLabel);
+        clearFieldError(categoryTypeComboBox, categoryTypeErrorLabel);
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {

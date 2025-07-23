@@ -9,10 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+//Implementacao concreta do DAO para a entidade Categoria
 public class CategoriaDAO extends AbstractDAO<Categoria, Integer> {
 
     public CategoriaDAO() {
-        super(); // Chama o construtor da classe abstrata para obter a conexão
+        super();
     }
 
     @Override
@@ -20,9 +21,7 @@ public class CategoriaDAO extends AbstractDAO<Categoria, Integer> {
         String sql = "INSERT INTO categorias (nome, tipo) OUTPUT INSERTED.id VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, categoria.getNome());
-            stmt.setString(2, categoria.getTipo().name()); // Salva o nome do enum ("RECEITA" ou "DESPESA")
-
-            // Executa a inserção e obtém o ResultSet com o ID gerado
+            stmt.setString(2, categoria.getTipo().name());
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     categoria.setId(rs.getInt(1));
@@ -43,16 +42,15 @@ public class CategoriaDAO extends AbstractDAO<Categoria, Integer> {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String nome = rs.getString("nome");
-                    // Converte a string do banco de dados de volta para o enum TipoCategoria
                     TipoCategoria tipo = TipoCategoria.valueOf(rs.getString("tipo"));
                     return new Categoria(id, nome, tipo);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar categoria por ID " + id + ": " + e.getMessage());
+            System.err.println("Erro ao buscar categoria por ID: " + e.getMessage());
             throw new RuntimeException("Erro ao buscar categoria.", e);
         }
-        return null; // Retorna null se a categoria não for encontrada
+        return null;
     }
 
     @Override
@@ -100,7 +98,7 @@ public class CategoriaDAO extends AbstractDAO<Categoria, Integer> {
             stmt.setInt(1, id);
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                System.out.println("Categoria com ID " + id + " excluída com sucesso.");
+                System.out.println("Categoria com ID " + id + " excluida com sucesso.");
             } else {
                 System.out.println("Nenhuma categoria encontrada com ID: " + id + " para excluir.");
             }
@@ -110,7 +108,6 @@ public class CategoriaDAO extends AbstractDAO<Categoria, Integer> {
         }
     }
 
-    //Método para buscar uma categoria pelo nome
     public Categoria findByNome(String nome) {
         String sql = "SELECT id, nome, tipo FROM categorias WHERE nome = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -123,9 +120,32 @@ public class CategoriaDAO extends AbstractDAO<Categoria, Integer> {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar categoria por nome '" + nome + "': " + e.getMessage());
+            System.err.println("Erro ao buscar categoria por nome: " + e.getMessage());
             throw new RuntimeException("Erro ao buscar categoria por nome.", e);
         }
         return null;
+    }
+
+    // Busca categorias cujos nomes contêm o termo de busca
+    public List<Categoria> findAllByNomeLike(String termoBusca) {
+        List<Categoria> categorias = new ArrayList<>();
+        // Usa LIKE para busca parcial e % para curingas
+        String sql = "SELECT id, nome, tipo FROM categorias WHERE nome LIKE ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Adiciona % no inicio e fim para buscar qualquer ocorrencia
+            stmt.setString(1, "%" + termoBusca + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    TipoCategoria tipo = TipoCategoria.valueOf(rs.getString("tipo"));
+                    categorias.add(new Categoria(id, nome, tipo));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar categorias por termo: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar categorias por termo.", e);
+        }
+        return categorias;
     }
 }

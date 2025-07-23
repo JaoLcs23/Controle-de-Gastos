@@ -3,7 +3,6 @@ package com.controle.dao;
 import com.controle.model.Categoria;
 import com.controle.model.Transacao;
 import com.controle.model.TipoCategoria;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,13 +14,10 @@ import java.util.List;
 
 public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
 
-    // CategoriaDAO será necessário para buscar e associar o objeto Categoria
     private CategoriaDAO categoriaDAO;
 
     public TransacaoDAO() {
-        super(); // Chama o construtor da classe abstrata para obter a conexão
-
-        // Instancia CategoriaDAO aqui para que TransacaoDAO possa buscar categorias
+        super();
         this.categoriaDAO = new CategoriaDAO();
     }
 
@@ -32,24 +28,21 @@ public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
             stmt.setString(1, transacao.getDescricao());
             stmt.setDouble(2, transacao.getValor());
             stmt.setDate(3, Date.valueOf(transacao.getData()));
-            stmt.setString(4, transacao.getTipo().name()); // Salva o nome do enum
-
-            // Lida com categoria_id que pode ser NULL
+            stmt.setString(4, transacao.getTipo().name());
             if (transacao.getCategoria() != null) {
                 stmt.setInt(5, transacao.getCategoria().getId());
             } else {
-                stmt.setNull(5, java.sql.Types.INTEGER); // Define como NULL no BD
+                stmt.setNull(5, java.sql.Types.INTEGER);
             }
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     transacao.setId(rs.getInt(1));
                 }
             }
-            System.out.println("Transacao '" + transacao.getDescricao() + "' salva com sucesso. ID: " + transacao.getId());
+            System.out.println("Transação '" + transacao.getDescricao() + "' salva com sucesso. ID: " + transacao.getId());
         } catch (SQLException e) {
-            System.err.println("Erro ao salvar transacao: " + e.getMessage());
-            throw new RuntimeException("Erro ao salvar transacao.", e);
+            System.err.println("Erro ao salvar transação: " + e.getMessage());
+            throw new RuntimeException("Erro ao salvar transação.", e);
         }
     }
 
@@ -64,19 +57,17 @@ public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
                     double valor = rs.getDouble("valor");
                     LocalDate data = rs.getDate("data").toLocalDate();
                     TipoCategoria tipo = TipoCategoria.valueOf(rs.getString("tipo"));
-
-                    // Lida com a chave estrangeira: busca a categoria associada
                     Integer categoriaId = rs.getObject("categoria_id", Integer.class);
                     Categoria categoria = null;
                     if (categoriaId != null) {
-                        categoria = categoriaDAO.findById(categoriaId); // Usa o CategoriaDAO para buscar a categoria
+                        categoria = categoriaDAO.findById(categoriaId);
                     }
                     return new Transacao(id, descricao, valor, data, tipo, categoria);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar transacao por ID " + id + ": " + e.getMessage());
-            throw new RuntimeException("Erro ao buscar transacao.", e);
+            System.err.println("Erro ao buscar transação por ID: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar transação.", e);
         }
         return null;
     }
@@ -93,8 +84,6 @@ public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
                 double valor = rs.getDouble("valor");
                 LocalDate data = rs.getDate("data").toLocalDate();
                 TipoCategoria tipo = TipoCategoria.valueOf(rs.getString("tipo"));
-
-                // Lida com a chave estrangeira
                 Integer categoriaId = rs.getObject("categoria_id", Integer.class);
                 Categoria categoria = null;
                 if (categoriaId != null) {
@@ -103,8 +92,8 @@ public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
                 transacoes.add(new Transacao(id, descricao, valor, data, tipo, categoria));
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar todas as transacoes: " + e.getMessage());
-            throw new RuntimeException("Erro ao buscar transacoes.", e);
+            System.err.println("Erro ao buscar todas as transações: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar transações.", e);
         }
         return transacoes;
     }
@@ -125,13 +114,13 @@ public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
             stmt.setInt(6, transacao.getId());
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                System.out.println("Transacao '" + transacao.getDescricao() + "' atualizada com sucesso.");
+                System.out.println("Transação '" + transacao.getDescricao() + "' atualizada com sucesso.");
             } else {
-                System.out.println("Nenhuma transacao encontrada com ID: " + transacao.getId() + " para atualizar.");
+                System.out.println("Nenhuma transação encontrada com ID: " + transacao.getId() + " para atualizar.");
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar transacao: " + e.getMessage());
-            throw new RuntimeException("Erro ao atualizar transacao.", e);
+            System.err.println("Erro ao atualizar transação: " + e.getMessage());
+            throw new RuntimeException("Erro ao atualizar transação.", e);
         }
     }
 
@@ -142,13 +131,41 @@ public class TransacaoDAO extends AbstractDAO<Transacao, Integer> {
             stmt.setInt(1, id);
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                System.out.println("Transacao com ID " + id + " excluída com sucesso.");
+                System.out.println("Transação com ID " + id + " excluída com sucesso.");
             } else {
-                System.out.println("Nenhuma transacao encontrada com ID: " + id + " para excluir.");
+                System.out.println("Nenhuma transação encontrada com ID: " + id + " para excluir.");
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao excluir transacao: " + e.getMessage());
-            throw new RuntimeException("Erro ao excluir transacao.", e);
+            System.err.println("Erro ao excluir transação: " + e.getMessage());
+            throw new RuntimeException("Erro ao excluir transação.", e);
         }
+    }
+
+    //Busca transacoes cujas descrições contêm o termo de busca
+    public List<Transacao> findAllByDescriptionLike(String termoBusca) {
+        List<Transacao> transacoes = new ArrayList<>();
+        String sql = "SELECT id, descricao, valor, data, tipo, categoria_id FROM transacoes WHERE descricao LIKE ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + termoBusca + "%"); // Usa % para buscar parcial
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String descricao = rs.getString("descricao");
+                    double valor = rs.getDouble("valor");
+                    LocalDate data = rs.getDate("data").toLocalDate();
+                    TipoCategoria tipo = TipoCategoria.valueOf(rs.getString("tipo"));
+                    Integer categoriaId = rs.getObject("categoria_id", Integer.class);
+                    Categoria categoria = null;
+                    if (categoriaId != null) {
+                        categoria = categoriaDAO.findById(categoriaId);
+                    }
+                    transacoes.add(new Transacao(id, descricao, valor, data, tipo, categoria));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar transações por termo na descrição: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar transações por termo.", e);
+        }
+        return transacoes;
     }
 }

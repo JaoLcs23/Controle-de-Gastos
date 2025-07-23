@@ -78,9 +78,13 @@ public class MainApp {
         List<Transacao> todasTransacoes = service.listarTodasTransacoes();
         todasTransacoes.forEach(System.out::println);
 
-        //Calcular Balanço Total
+        // Definindo um periodo muito abrangente para o balanco geral do console
+        LocalDate inicioGeral = LocalDate.of(1900, 1, 1); // Uma data bem antiga
+        LocalDate fimGeral = LocalDate.now(); // Até a data atual
+
+        //Calcular Balanço Total (primeira chamada)
         System.out.println("\n--- Balanço Total ---");
-        double balanco = service.calcularBalancoTotal();
+        double balanco = service.calcularBalancoTotal(inicioGeral, fimGeral);
         System.out.printf("Balanço Total: R$ %.2f%n", balanco);
 
         //Calcular Despesas por Categoria em um período
@@ -121,7 +125,7 @@ public class MainApp {
 
         //Verificar balanço após exclusão
         System.out.println("\n--- Balanço Total Após Exclusão ---");
-        balanco = service.calcularBalancoTotal();
+        balanco = service.calcularBalancoTotal(inicioGeral, fimGeral);
         System.out.printf("Novo Balanço Total: R$ %.2f%n", balanco);
 
         System.out.println("\nSistema de Controle de Gastos Pessoais finalizado.");
