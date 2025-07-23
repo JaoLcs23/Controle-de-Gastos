@@ -18,11 +18,9 @@ public class App extends Application {
         Scene scene = null;
 
         try {
-            // Carrega o FXML do Menu Principal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/controle/view/MainMenuView.fxml"));
             root = loader.load();
 
-            // Obtém o controlador e passa a referencia do Stage principal
             MenuController menuController = loader.getController();
             if (menuController != null) {
                 menuController.setPrimaryStage(primaryStage);
@@ -30,19 +28,19 @@ public class App extends Application {
                 System.err.println("ERRO: MenuController não foi obtido do FXMLLoader!");
             }
 
-            // Cria a cena com o root carregado e dimensoes iniciais
-            scene = new Scene(root, 700, 750); // Mantenha largura e altura fixas
+            scene = new Scene(root, 700, 750); // Com largura e altura fixas
 
-            // Carrega o arquivo CSS na cena
             scene.getStylesheets().add(getClass().getResource("/com/controle/view/style.css").toExternalForm());
 
             primaryStage.setTitle("Controle de Gastos Pessoais - Menu Principal");
+            primaryStage.setScene(scene); // Define a cena para o palco
 
-            // AQUI: CORRIGIDO A ORDEM! Set Scene ANTES de Show
-            primaryStage.setScene(scene); // <-- AGORA ESTÁ AQUI (antes de show)
+            // AQUI: Deixar a janela em modo FULL SCREEN
+            primaryStage.show();
+            Platform.runLater(() -> primaryStage.setFullScreen(true));
 
-            primaryStage.show(); // Primeiro mostra a janela
-            Platform.runLater(() -> primaryStage.setMaximized(true)); // Depois, agenda a maximizacao
+            // AQUI: REMOVE a dica padrao
+            // primaryStage.setFullScreenExitHint("ESC para sair.");
 
         } catch (IOException e) {
             System.err.println("ERRO FATAL: Erro de IO ao carregar FXML ou CSS: " + e.getMessage());

@@ -1,6 +1,7 @@
 D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\model\Categoria.java
 D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\dao\AbstractDAO.java
 D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\model\Transacao.java
+D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\view\BaseController.java
 D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\dao\TransacaoDAO.java
 D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\util\DatabaseConnection.java
 D:\IntelliJ IDEA\IntelliJ IDEA 2024.1.4\Projects\Controle-Financeiro\src\main\java\com\controle\service\GastoPessoalService.java

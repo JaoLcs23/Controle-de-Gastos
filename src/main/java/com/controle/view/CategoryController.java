@@ -3,6 +3,7 @@ package com.controle.view;
 import com.controle.model.Categoria;
 import com.controle.model.TipoCategoria;
 import com.controle.service.GastoPessoalService;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,17 +14,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.application.Platform;
+
 import java.io.IOException;
 import java.util.Optional;
 
-public class CategoryController {
+public class CategoryController extends BaseController { // EXTENDE BASECONTROLLER
 
-    private Stage primaryStage;
+    // AQUI: selectedCategoryId fica em CategoryController
     private int selectedCategoryId = 0;
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
 
     @FXML private TextField categoryNameField;
     @FXML private ComboBox<TipoCategoria> categoryTypeComboBox;
@@ -31,12 +30,15 @@ public class CategoryController {
     @FXML private TableColumn<Categoria, Integer> colId;
     @FXML private TableColumn<Categoria, String> colName;
     @FXML private TableColumn<Categoria, TipoCategoria> colType;
+
     @FXML private Button addCategoryButton;
     @FXML private Button updateCategoryButton;
     @FXML private Button deleteCategoryButton;
     @FXML private Button newCategoryButton;
+
     @FXML private Label categoryNameErrorLabel;
     @FXML private Label categoryTypeErrorLabel;
+
     @FXML private TextField searchField;
 
 
@@ -63,7 +65,7 @@ public class CategoryController {
 
         loadCategories("");
         setFormMode(false);
-        clearAllErrors();
+        clearAllErrors(); // CHAMA clearAllErrors() implementado aqui
 
         categoryTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showCategoryDetails(newValue));
@@ -182,13 +184,14 @@ public class CategoryController {
             MenuController menuController = loader.getController();
             menuController.setPrimaryStage(primaryStage);
 
-            // Scene sem dimensoes fixas
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/com/controle/view/style.css").toExternalForm());
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("Controle de Gastos Pessoais - Menu Principal");
             primaryStage.show();
+            applyFullScreen(); // CHAMA applyFullScreen da BaseController
+            showFullScreenHintTemporarily("Pressione ESC para sair.", 3000); // CHAMA showFullScreenHintTemporarily da BaseController
         } catch (IOException e) {
             System.err.println("Erro ao carregar o menu principal: " + e.getMessage());
             e.printStackTrace();
@@ -196,30 +199,10 @@ public class CategoryController {
         }
     }
 
-    private void showFieldError(Control control, Label errorLabel, String message) {
-        if (!control.getStyleClass().contains("text-field-error")) {
-            control.getStyleClass().add("text-field-error");
-        }
-        errorLabel.setText(message);
-        errorLabel.setVisible(true);
-    }
-
-    private void clearFieldError(Control control, Label errorLabel) {
-        control.getStyleClass().remove("text-field-error");
-        errorLabel.setText("");
-        errorLabel.setVisible(false);
-    }
-
-    private void clearAllErrors() {
+    // AQUI: Implementacao do metodo abstrato clearAllErrors da BaseController
+    @Override
+    protected void clearAllErrors() {
         clearFieldError(categoryNameField, categoryNameErrorLabel);
         clearFieldError(categoryTypeComboBox, categoryTypeErrorLabel);
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

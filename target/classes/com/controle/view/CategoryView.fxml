@@ -10,7 +10,17 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.BorderPane?> <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controle.view.CategoryController" styleClass="root">
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controle.view.CategoryController" styleClass="root">
+    <top>
+        <Label fx:id="fullScreenHintLabel" styleClass="full-screen-hint-label" text="" visible="false" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </BorderPane.margin>
+        </Label>
+    </top>
+
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>

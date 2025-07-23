@@ -154,3 +154,32 @@
     -fx-border-color: white;
     -fx-border-width: 1px;
 }
+
+.full-screen-hinter { /* Este e um styleClass que vamos aplicar manualmente */
+    -fx-font-size: 10px; /* Fonte menor */
+    -fx-text-fill: rgba(0, 0, 0, 0.5); /* Cor cinza com 50% de opacidade */
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* Fundo sutil e transparente */
+    -fx-padding: 2px 5px; /* Menor padding */
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.full-screen-hint-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: darkgray;
+    -fx-padding: 5px 10px;
+    -fx-background-color: rgba(255, 255, 255, 0.3); /* Fundo sutil */
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.custom-full-screen-hint-label {
+    -fx-font-size: 11px; /* Fonte menor */
+    -fx-text-fill: #555555; /* Um cinza discreto */
+    -fx-background-color: rgba(255, 255, 255, 0.4); /* Fundo branco semitransparente */
+    -fx-padding: 3px 8px; /* Padding menor */
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 0); /* Sombra bem sutil */
+    -fx-alignment: CENTER; /* Centraliza texto */
+}

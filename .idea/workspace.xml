@@ -8,45 +8,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed2e128b-2c43-45d1-9ec8-f6dbb11c6168" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/controle/view/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/controle/view/BaseController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/app/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/app/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/app/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/dao/CategoriaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/dao/CategoriaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/dao/TransacaoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/dao/TransacaoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/service/GastoPessoalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/service/GastoPessoalService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/view/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/view/CategoryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/view/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/view/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/view/ReportsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/view/ReportsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controle/view/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controle/view/TransactionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controle/view/CategoryView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controle/view/CategoryView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controle/view/MainMenuView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controle/view/MainMenuView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controle/view/ReportsView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controle/view/ReportsView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controle/view/TransactionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controle/view/TransactionView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controle/view/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controle/view/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/app/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/app/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/app/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/app/MainApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/dao/AbstractDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/dao/AbstractDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/dao/CategoriaDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/dao/CategoriaDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/dao/GenericDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/dao/GenericDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/dao/TransacaoDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/dao/TransacaoDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/model/Categoria.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/model/Categoria.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/model/TipoCategoria.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/model/TipoCategoria.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/model/Transacao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/model/Transacao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/service/GastoPessoalService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/service/GastoPessoalService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/util/DatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/util/DatabaseConnection.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/CategoryController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/CategoryView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/CategoryView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/MainMenuView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/MainMenuView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/MenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/MenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsController$CategorySummary.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsController$CategorySummary.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/ReportsView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionController$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/TransactionView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/controle/view/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controle/view/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/gastos-pessoais-app-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/gastos-pessoais-app-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,6 +169,8 @@
       <workItem from="1750896899136" duration="553000" />
       <workItem from="1750974331158" duration="3193000" />
       <workItem from="1751061784315" duration="2626000" />
+      <workItem from="1753243643093" duration="4370000" />
+      <workItem from="1753248230806" duration="938000" />
     </task>
     <servers />
   </component>
